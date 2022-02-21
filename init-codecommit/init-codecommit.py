@@ -146,7 +146,7 @@ BuildArtifacts = codebuild.Artifacts(
 
 BuildEnvironment = codebuild.Environment(
     ComputeType="BUILD_GENERAL1_SMALL",
-    Image="aws/codebuild/standard:5",
+    Image="aws/codebuild/eb-python-3.4-amazonlinux-64:2.3.2",
     Type="LINUX_CONTAINER",
     EnvironmentVariables=[{'Name': 'CODECOMMIT_REPO_ADDR', 'Value': Ref(codecommit_repo_addr)}],
 )
