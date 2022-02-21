@@ -24,7 +24,7 @@ phases:
       - echo Build started on `date`
       - echo Pulling the pip requirements
       - cd init-db-lambda
-      - pip3 install requests -t     
+      - pip3 install requests     
       - pip3 install pymysql -t .
       - pip3 install boto3 -t .
       - zip -r init-db-lambda.zip .
