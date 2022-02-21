@@ -12,8 +12,9 @@ phases:
       python: 3.7
     commands:
       - sudo add-apt-repository ppa:deadsnakes/ppa   
-      - sudo apt-get update   
-      - sudo apt install python3.8
+      - sudo apt-get update  
+      - sudo apt remove python-pip 
+      - sudo apt install python3-pip
   pre_build:
     commands:
   build:
