@@ -205,7 +205,7 @@
                             }
                         }
                     ],
-                    "Image": "aws/codebuild/docker:17.09.0",
+                    "Image": "aws/codebuild/standard:5",
                     "PrivilegedMode": "true",
                     "Type": "LINUX_CONTAINER"
                 },

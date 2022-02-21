@@ -202,7 +202,7 @@
                             }
                         }
                     ],
-                    "Image": "aws/codebuild/docker:17.09.0",
+                    "Image": "aws/codebuild/standard:5",
                     "Type": "LINUX_CONTAINER"
                 },
                 "Name": "ghost-pipeline-init-codecommit",

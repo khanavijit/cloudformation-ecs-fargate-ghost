@@ -90,7 +90,7 @@ ImageArtifacts = codebuild.Artifacts(
 
 ImageEnvironment = codebuild.Environment(
     ComputeType="BUILD_GENERAL1_SMALL",
-    Image="aws/codebuild/docker:17.09.0",
+    Image="aws/codebuild/standard:5",
     Type="LINUX_CONTAINER",
     EnvironmentVariables=[{'Name': 'S3BUCKET', 'Value': Ref(S3Bucket)}],
     PrivilegedMode=True
