@@ -15,7 +15,7 @@ phases:
       - echo "OS Environment Setup"
       - sudo add-apt-repository universe
       - sudo apt update
-      - sudo apt install python3-pip  
+      - sudo apt --assume-yes install python3-pip  
       - echo `python --version`
   pre_build:
     commands:
