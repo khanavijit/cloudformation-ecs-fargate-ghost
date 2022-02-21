@@ -1,0 +1,47 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "Cloud9Name": {
+            "Default": "Ghost",
+            "Description": "The Name of the Cloud9",
+            "Type": "String"
+        },
+        "CodeCommitRepoUrl": {
+            "Description": "The CodeCommit Repo Clone URL",
+            "Type": "String"
+        },
+        "InstanceType": {
+            "Default": "t2.micro",
+            "Description": "The Instance Type",
+            "Type": "String"
+        },
+        "Subnet": {
+            "Description": "The subnet ID",
+            "Type": "AWS::EC2::Subnet::Id"
+        }
+    },
+    "Resources": {
+        "GhostCloud9": {
+            "Properties": {
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                },
+                "Name": {
+                    "Ref": "Cloud9Name"
+                },
+                "Repositories": [
+                    {
+                        "PathComponent": "/ghost-ecs-fargate-pipeline",
+                        "RepositoryUrl": {
+                            "Ref": "CodeCommitRepoUrl"
+                        }
+                    }
+                ],
+                "SubnetId": {
+                    "Ref": "Subnet"
+                }
+            },
+            "Type": "AWS::Cloud9::EnvironmentEC2"
+        }
+    }
+}

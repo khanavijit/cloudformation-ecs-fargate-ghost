@@ -1,0 +1,162 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Outputs": {
+        "GhostFargateServiceName": {
+            "Description": "Ghost Fargate Service Name",
+            "Value": {
+                "Fn::GetAtt": [
+                    "GhostService",
+                    "Name"
+                ]
+            }
+        }
+    },
+    "Parameters": {
+        "Cluster": {
+            "Description": "The ECS Cluster to deploy to.",
+            "Type": "String"
+        },
+        "DependencyStackName": {
+            "Description": "The name of the Dependency Stack to retrieve CloudFormation Exports",
+            "Type": "String"
+        },
+        "GhostImage": {
+            "Description": "The Ghost container image to deploy.",
+            "Type": "String"
+        }
+    },
+    "Resources": {
+        "GhostService": {
+            "Properties": {
+                "Cluster": {
+                    "Ref": "Cluster"
+                },
+                "DesiredCount": 1,
+                "LaunchType": "FARGATE",
+                "LoadBalancers": [
+                    {
+                        "ContainerName": "ghost",
+                        "ContainerPort": 2368,
+                        "TargetGroupArn": {
+                            "Fn::ImportValue": {
+                                "Fn::Sub": "${DependencyStackName}-GhostTG"
+                            }
+                        }
+                    }
+                ],
+                "NetworkConfiguration": {
+                    "AwsvpcConfiguration": {
+                        "SecurityGroups": [
+                            {
+                                "Fn::ImportValue": {
+                                    "Fn::Sub": "${DependencyStackName}-GhostSG"
+                                }
+                            }
+                        ],
+                        "Subnets": [
+                            {
+                                "Fn::ImportValue": {
+                                    "Fn::Sub": "${DependencyStackName}-Subnet1"
+                                }
+                            },
+                            {
+                                "Fn::ImportValue": {
+                                    "Fn::Sub": "${DependencyStackName}-Subnet2"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "TaskDefinition": {
+                    "Ref": "GhostTaskDefinition"
+                }
+            },
+            "Type": "AWS::ECS::Service"
+        },
+        "GhostTaskDefinition": {
+            "Properties": {
+                "ContainerDefinitions": [
+                    {
+                        "Environment": [
+                            {
+                                "Name": "url",
+                                "Value": {
+                                    "Fn::ImportValue": {
+                                        "Fn::Sub": "${DependencyStackName}-ALBURL"
+                                    }
+                                }
+                            },
+                            {
+                                "Name": "database__client",
+                                "Value": "mysql2"
+                            },
+                            {
+                                "Name": "database__connection__host",
+                                "Value": {
+                                    "Fn::ImportValue": {
+                                        "Fn::Sub": "${DependencyStackName}-GhostDBHost"
+                                    }
+                                }
+                            },
+                            {
+                                "Name": "database__connection__user",
+                                "Value": "ghost"
+                            },
+                            {
+                                "Name": "database__connection__database",
+                                "Value": "ghost"
+                            },
+                            {
+                                "Name": "AWSREGION",
+                                "Value": {
+                                    "Ref": "AWS::Region"
+                                }
+                            }
+                        ],
+                        "Essential": "true",
+                        "Image": {
+                            "Ref": "GhostImage"
+                        },
+                        "LogConfiguration": {
+                            "LogDriver": "awslogs",
+                            "Options": {
+                                "awslogs-group": {
+                                    "Fn::ImportValue": {
+                                        "Fn::Sub": "${DependencyStackName}-GhostLogGroupName"
+                                    }
+                                },
+                                "awslogs-region": {
+                                    "Ref": "AWS::Region"
+                                },
+                                "awslogs-stream-prefix": "ghost"
+                            }
+                        },
+                        "Name": "ghost",
+                        "PortMappings": [
+                            {
+                                "ContainerPort": 2368
+                            }
+                        ]
+                    }
+                ],
+                "Cpu": "512",
+                "ExecutionRoleArn": {
+                    "Fn::ImportValue": {
+                        "Fn::Sub": "${DependencyStackName}-TaskExecutionRoleArn"
+                    }
+                },
+                "Memory": "1GB",
+                "NetworkMode": "awsvpc",
+                "RequiresCompatibilities": [
+                    "FARGATE"
+                ],
+                "TaskRoleArn": {
+                    "Fn::ImportValue": {
+                        "Fn::Sub": "${DependencyStackName}-TaskRoleArn"
+                    }
+                }
+            },
+            "Type": "AWS::ECS::TaskDefinition"
+        }
+    }
+}
