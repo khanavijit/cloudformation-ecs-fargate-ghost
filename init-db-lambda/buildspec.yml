@@ -13,10 +13,9 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Pulling the pip requirements
-      - cd init-db-lambda 
-      - pip3 install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org pip setuptools          
-      - pip3 install pymysql -t .
-      - pip3 install boto3 -t .
+      - cd init-db-lambda     
+      - pip install pymysql -t .
+      - pip install boto3 -t .
       - zip -r init-db-lambda.zip .
   post_build:
     commands:
