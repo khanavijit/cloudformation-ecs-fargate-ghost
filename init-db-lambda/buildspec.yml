@@ -6,7 +6,19 @@
 
 version: 0.2
 
-phases:  
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+    commands:
+      - echo "This buildspec is based on image - aws/codebuild/standard:2.0"
+      - echo "OS Environment Setup"
+      - sudo apt update
+      - sudo apt install software-properties-common
+      - sudo add-apt-repository ppa:deadsnakes/ppa
+      - sudo apt update
+      - sudo apt install python3.8  
+      - echo `python --version`
   pre_build:
     commands:
   build:
