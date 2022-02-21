@@ -4,7 +4,7 @@ import boto3
 import logging
 import json
 import time
-from botocore.vendored import requests
+import requests
 
 log = logging.getLogger()
 log.setLevel(logging.INFO)
