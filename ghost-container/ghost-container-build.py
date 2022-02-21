@@ -169,7 +169,7 @@ ImageArtifacts = codebuild.Artifacts(
 
 ImageEnvironment = codebuild.Environment(
     ComputeType="BUILD_GENERAL1_SMALL",
-    Image="aws/codebuild/eb-python-3.4-amazonlinux-64:2.3.2",
+    Image="aws/codebuild/docker:17.09.0",
     Type="LINUX_CONTAINER",
     EnvironmentVariables=[{'Name': 'AWS_ACCOUNT_ID', 'Value': Ref(AWS_ACCOUNT_ID)},
                           {'Name': 'IMAGE_REPO_NAME', 'Value': Ref(Repository)},

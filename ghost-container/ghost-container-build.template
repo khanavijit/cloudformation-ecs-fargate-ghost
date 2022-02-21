@@ -205,7 +205,7 @@
                             }
                         }
                     ],
-                    "Image": "aws/codebuild/eb-python-3.4-amazonlinux-64:2.3.2",
+                    "Image": "aws/codebuild/docker:17.09.0",
                     "PrivilegedMode": "true",
                     "Type": "LINUX_CONTAINER"
                 },
