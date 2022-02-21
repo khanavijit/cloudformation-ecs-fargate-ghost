@@ -57,3 +57,5 @@ The `ghost-container/ghost-container-build-pipeline.template` Template sets up a
 The `quickstart/clair-deploy-fargate.template` Template deploys the Clair scanner used by CodeBuild. For more information on that see (https://github.com/jasonumiker/clair-ecs-fargate)
 
 These templates were created by using Troposphere (https://github.com/cloudtools/troposphere) in the corresponding `.py` files.
+
+Adding comments.
